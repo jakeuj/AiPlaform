@@ -1,0 +1,32 @@
+{
+  "apps": [
+    {
+      "id": "dia",
+      "name": "Dia",
+      "description": "Dia是一個1.6B參數的文本轉語音模型，由Nari Labs創建。Dia直接從轉錄生成高度逼真的對話。您可以調節音頻輸出，啟用情感和語調控制。該模型還可以生成非語言交流，如笑聲、咳嗽、清嗓子等。",
+      "icon": "https://raw.githubusercontent.com/pinokiocomputer/assets/master/apps/dia.png",
+      "launchUrl": "https://github.com/nari-labs/dia"
+    },
+    {
+      "id": "framepack",
+      "name": "FramePack",
+      "description": "[僅限NVIDIA] 逐步生成視頻。FramePack是一個下一幀預測（next-frame-section）神經網絡結構，可逐步生成視頻。",
+      "icon": "https://raw.githubusercontent.com/pinokiocomputer/assets/master/apps/framepack.png",
+      "launchUrl": "https://github.com/lllyasviel/FramePack"
+    },
+    {
+      "id": "wan21",
+      "name": "Wan 2.1",
+      "description": "[僅限NVIDIA] 針對低配GPU機器的超級優化Gradio UI。為Wan2.1視頻生成器優化。生成高達12秒的視頻。",
+      "icon": "https://raw.githubusercontent.com/pinokiocomputer/assets/master/apps/wan2.1.png",
+      "launchUrl": "https://github.com/deepbeepmeeep/Wan2GP"
+    },
+    {
+      "id": "uno",
+      "name": "Uno",
+      "description": "[僅限NVIDIA] 從多個圖像生成圖像。https://github.com/bytedance/UNO",
+      "icon": "https://raw.githubusercontent.com/pinokiocomputer/assets/master/apps/uno.png", 
+      "launchUrl": "https://github.com/bytedance/UNO"
+    }
+  ]
+} 

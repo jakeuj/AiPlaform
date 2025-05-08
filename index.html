@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Max 平台</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <div class="logo">M</div>
+            <h1>Max 平台</h1>
+        </div>
+        <nav>
+            <a href="#" class="nav-link">Discord</a>
+            <a href="#" class="nav-link">GitHub</a>
+            <a href="#" class="nav-link">Twitter</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h2>安裝、運行和控制 <br>
+                    <span class="highlight">任何應用程式</span><br>
+                    在您的電腦上<br>
+                    只需一鍵。</h2>
+                <p>Max 平台是一個瀏覽器，讓您可以在本地安裝、運行和管理任何伺服器應用程式。</p>
+                <div class="buttons">
+                    <button class="btn primary">下載</button>
+                    <button class="btn secondary">了解更多</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="verified-section">
+            <div class="section-header">
+                <div class="verified-badge">✓</div>
+                <h2>已驗證</h2>
+            </div>
+            <p>經過認證發布商的腳本</p>
+            
+            <div class="app-grid" id="appGrid">
+                <!-- 應用程式卡片將通過JavaScript動態生成 -->
+            </div>
+        </section>
+    </main>
+
+    <!-- 安裝模態框 -->
+    <div class="modal" id="installModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <h2>正在安裝 <span id="modalAppName"></span></h2>
+            <div class="progress-bar">
+                <div class="progress" id="installProgress"></div>
+            </div>
+            <p id="installStatus">準備安裝...</p>
+        </div>
+    </div>
+
+    <!-- 啟動模態框 -->
+    <div class="modal" id="launchModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeLaunchModal">&times;</span>
+            <h2><span id="launchAppName"></span> 已安裝</h2>
+            <p>應用程式已成功安裝到您的系統。</p>
+            <button class="btn primary" id="launchBtn">啟動應用</button>
+        </div>
+    </div>
+
+    <!-- 管理應用程式的後台模態框 -->
+    <div class="modal" id="adminModal">
+        <div class="modal-content admin-content">
+            <span class="close-btn" id="closeAdminModal">&times;</span>
+            <h2>應用程式管理</h2>
+            <div id="appEditor">
+                <div class="form-group">
+                    <label for="editAppId">應用ID</label>
+                    <input type="text" id="editAppId" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="editAppName">應用名稱</label>
+                    <input type="text" id="editAppName">
+                </div>
+                <div class="form-group">
+                    <label for="editAppDescription">應用描述</label>
+                    <textarea id="editAppDescription"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editAppIcon">應用圖標URL</label>
+                    <input type="text" id="editAppIcon">
+                </div>
+                <div class="form-group">
+                    <label for="editAppLaunchUrl">啟動URL</label>
+                    <input type="text" id="editAppLaunchUrl">
+                </div>
+                <div class="form-group buttons">
+                    <button class="btn primary" id="saveAppBtn">儲存</button>
+                    <button class="btn secondary" id="cancelEditBtn">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 管理面板觸發按鈕 -->
+    <button id="adminToggle">管理應用</button>
+</body>
+</html> 

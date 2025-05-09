@@ -25,6 +25,7 @@ const editAppCategorySelect = document.getElementById('editAppCategory');
 let selectedApp = null;
 let currentEditApp = null;
 let currentCategoryFilter = 'all';
+let currentParentCategoryFilter = null; // 追蹤當前選擇的父分類
 
 // 初始化
 document.addEventListener('DOMContentLoaded', async () => {
@@ -183,16 +184,18 @@ function renderCategoryFilters() {
     // 保留「所有應用」按鈕
     categoryFiltersContainer.innerHTML = `<button class="filter-btn active" data-category="all">所有應用</button>`;
     
-    // 添加分類按鈕
-    categoriesData.forEach(category => {
+    // 添加主分類按鈕（沒有parentId的分類）
+    const parentCategories = categoriesData.filter(category => !category.parentId);
+    
+    parentCategories.forEach(category => {
         const button = document.createElement('button');
-        button.className = 'filter-btn';
+        button.className = 'filter-btn parent-category';
         button.dataset.category = category.id;
         button.textContent = category.name;
         
         button.addEventListener('click', () => {
             // 設置當前過濾器
-            setCurrentCategoryFilter(category.id);
+            setCurrentCategoryFilter(category.id, true);
         });
         
         categoryFiltersContainer.appendChild(button);
@@ -208,8 +211,15 @@ function renderCategoryFilters() {
 }
 
 // 設置當前分類過濾器
-function setCurrentCategoryFilter(categoryId) {
+function setCurrentCategoryFilter(categoryId, isParentCategory = false) {
     currentCategoryFilter = categoryId;
+    
+    // 如果是父分類，則記錄它
+    if (isParentCategory) {
+        currentParentCategoryFilter = categoryId;
+    } else if (categoryId === 'all') {
+        currentParentCategoryFilter = null;
+    }
     
     // 更新按鈕狀態
     const buttons = categoryFiltersContainer.querySelectorAll('.filter-btn');
@@ -221,8 +231,63 @@ function setCurrentCategoryFilter(categoryId) {
         }
     });
     
+    // 更新子分類按鈕
+    updateSubcategoryFilters();
+    
     // 重新渲染應用程式
     renderCategorizedApps();
+}
+
+// 更新子分類過濾按鈕
+function updateSubcategoryFilters() {
+    // 移除現有的子分類按鈕容器
+    const existingSubcatContainer = document.querySelector('.subcategory-filters');
+    if (existingSubcatContainer) {
+        existingSubcatContainer.remove();
+    }
+    
+    // 如果選中了父分類，顯示其子分類
+    if (currentParentCategoryFilter && currentParentCategoryFilter !== 'all') {
+        const childCategories = categoriesData.filter(category => 
+            category.parentId === currentParentCategoryFilter);
+        
+        if (childCategories.length > 0) {
+            // 創建子分類按鈕容器
+            const subcatContainer = document.createElement('div');
+            subcatContainer.className = 'subcategory-filters';
+            
+            // 添加「所有...」按鈕以顯示父分類下的所有應用
+            const allSubcatButton = document.createElement('button');
+            allSubcatButton.className = 'filter-btn subcategory-btn';
+            allSubcatButton.classList.toggle('active', currentCategoryFilter === currentParentCategoryFilter);
+            allSubcatButton.dataset.category = currentParentCategoryFilter;
+            allSubcatButton.textContent = `所有${getCategoryNameById(currentParentCategoryFilter)}`;
+            
+            allSubcatButton.addEventListener('click', () => {
+                setCurrentCategoryFilter(currentParentCategoryFilter);
+            });
+            
+            subcatContainer.appendChild(allSubcatButton);
+            
+            // 添加各個子分類按鈕
+            childCategories.forEach(subCategory => {
+                const subButton = document.createElement('button');
+                subButton.className = 'filter-btn subcategory-btn';
+                subButton.classList.toggle('active', currentCategoryFilter === subCategory.id);
+                subButton.dataset.category = subCategory.id;
+                subButton.textContent = subCategory.name;
+                
+                subButton.addEventListener('click', () => {
+                    setCurrentCategoryFilter(subCategory.id);
+                });
+                
+                subcatContainer.appendChild(subButton);
+            });
+            
+            // 將子分類按鈕容器添加到頁面
+            categoryFiltersContainer.parentNode.insertBefore(subcatContainer, categoryFiltersContainer.nextSibling);
+        }
+    }
 }
 
 // 創建默認圖標
@@ -271,77 +336,157 @@ function renderCategorizedApps() {
     categorizedAppsContainer.innerHTML = '';
     
     if (currentCategoryFilter === 'all') {
-        // 按分類顯示所有應用
-        categoriesData.forEach(category => {
-            // 過濾該分類下的應用
-            const categoryApps = appsData.filter(app => app.categoryId === category.id);
+        // 僅顯示父分類
+        const parentCategories = categoriesData.filter(category => !category.parentId);
+        
+        parentCategories.forEach(parentCategory => {
+            // 創建父分類區塊
+            const parentSection = document.createElement('div');
+            parentSection.className = 'category-section parent-category-section';
+            parentSection.innerHTML = `
+                <h3>${parentCategory.name}</h3>
+                <p class="category-description">${parentCategory.description}</p>
+                <div class="app-grid" id="appGrid-${parentCategory.id}"></div>
+            `;
             
-            // 如果此分類下有應用，則創建分類部分
-            if (categoryApps.length > 0) {
-                // 創建分類區塊
-                const categorySection = document.createElement('div');
-                categorySection.className = 'category-section';
-                categorySection.innerHTML = `
-                    <h3>${category.name}</h3>
-                    <p class="category-description">${category.description}</p>
-                    <div class="app-grid" id="appGrid-${category.id}"></div>
+            categorizedAppsContainer.appendChild(parentSection);
+            
+            // 獲取該父分類下的所有子分類
+            const childCategories = categoriesData.filter(category => 
+                category.parentId === parentCategory.id);
+            
+            // 獲取直接屬於該父分類的應用
+            const directParentCategoryApps = appsData.filter(app => 
+                app.categoryId === parentCategory.id);
+            
+            // 渲染直接屬於父分類的應用
+            if (directParentCategoryApps.length > 0) {
+                const parentGrid = document.getElementById(`appGrid-${parentCategory.id}`);
+                renderAppsInGrid(directParentCategoryApps, parentGrid);
+            }
+            
+            // 渲染每個子分類及其應用
+            childCategories.forEach(childCategory => {
+                // 獲取該子分類下的應用
+                const childCategoryApps = appsData.filter(app => 
+                    app.categoryId === childCategory.id);
+                
+                if (childCategoryApps.length > 0) {
+                    // 創建子分類區塊
+                    const childSection = document.createElement('div');
+                    childSection.className = 'category-section child-category-section';
+                    childSection.innerHTML = `
+                        <h4>${childCategory.name}</h4>
+                        <p class="category-description">${childCategory.description}</p>
+                        <div class="app-grid" id="appGrid-${childCategory.id}"></div>
+                    `;
+                    
+                    parentSection.appendChild(childSection);
+                    
+                    // 在該子分類下渲染應用
+                    const childGrid = document.getElementById(`appGrid-${childCategory.id}`);
+                    renderAppsInGrid(childCategoryApps, childGrid);
+                }
+            });
+        });
+    } else {
+        // 首先檢查是否為父分類
+        const isParentCategory = !categoriesData.find(cat => cat.id === currentCategoryFilter)?.parentId;
+        
+        if (isParentCategory) {
+            // 獲取該父分類
+            const parentCategory = categoriesData.find(cat => cat.id === currentCategoryFilter);
+            
+            if (parentCategory) {
+                // 創建父分類區塊
+                const parentSection = document.createElement('div');
+                parentSection.className = 'category-section parent-category-section';
+                parentSection.innerHTML = `
+                    <h3>${parentCategory.name}</h3>
+                    <p class="category-description">${parentCategory.description}</p>
                 `;
                 
-                categorizedAppsContainer.appendChild(categorySection);
+                categorizedAppsContainer.appendChild(parentSection);
                 
-                // 在該分類下渲染應用
-                const categoryGrid = document.getElementById(`appGrid-${category.id}`);
-                renderAppsInGrid(categoryApps, categoryGrid);
+                // 獲取直接屬於該父分類的應用
+                const directParentApps = appsData.filter(app => app.categoryId === parentCategory.id);
+                
+                if (directParentApps.length > 0) {
+                    const parentAppsContainer = document.createElement('div');
+                    parentAppsContainer.innerHTML = `
+                        <h4>直接歸類在${parentCategory.name}下的應用</h4>
+                        <div class="app-grid" id="appGrid-direct-${parentCategory.id}"></div>
+                    `;
+                    
+                    parentSection.appendChild(parentAppsContainer);
+                    
+                    // 渲染直接屬於父分類的應用
+                    const parentGrid = document.getElementById(`appGrid-direct-${parentCategory.id}`);
+                    renderAppsInGrid(directParentApps, parentGrid);
+                }
+                
+                // 獲取該父分類下的所有子分類
+                const childCategories = categoriesData.filter(category => 
+                    category.parentId === parentCategory.id);
+                
+                // 渲染每個子分類及其應用
+                childCategories.forEach(childCategory => {
+                    // 獲取該子分類下的應用
+                    const childCategoryApps = appsData.filter(app => 
+                        app.categoryId === childCategory.id);
+                    
+                    if (childCategoryApps.length > 0) {
+                        // 創建子分類區塊
+                        const childSection = document.createElement('div');
+                        childSection.className = 'category-section child-category-section';
+                        childSection.innerHTML = `
+                            <h4>${childCategory.name}</h4>
+                            <p class="category-description">${childCategory.description}</p>
+                            <div class="app-grid" id="appGrid-${childCategory.id}"></div>
+                        `;
+                        
+                        parentSection.appendChild(childSection);
+                        
+                        // 在該子分類下渲染應用
+                        const childGrid = document.getElementById(`appGrid-${childCategory.id}`);
+                        renderAppsInGrid(childCategoryApps, childGrid);
+                    }
+                });
             }
-        });
-        
-        // 處理沒有分類的應用
-        const uncategorizedApps = appsData.filter(app => !app.categoryId || !categoriesData.some(cat => cat.id === app.categoryId));
-        if (uncategorizedApps.length > 0) {
-            // 創建未分類區塊
-            const uncategorizedSection = document.createElement('div');
-            uncategorizedSection.className = 'category-section';
-            uncategorizedSection.innerHTML = `
-                <h3>未分類應用</h3>
-                <p class="category-description">尚未分類的應用程式</p>
-                <div class="app-grid" id="appGrid-uncategorized"></div>
-            `;
-            
-            categorizedAppsContainer.appendChild(uncategorizedSection);
-            
-            // 在未分類區塊下渲染應用
-            const uncategorizedGrid = document.getElementById('appGrid-uncategorized');
-            renderAppsInGrid(uncategorizedApps, uncategorizedGrid);
-        }
-    } else {
-        // 只顯示特定分類的應用
-        const category = categoriesData.find(cat => cat.id === currentCategoryFilter);
-        if (category) {
-            // 過濾該分類下的應用
-            const categoryApps = appsData.filter(app => app.categoryId === category.id);
-            
-            // 創建分類區塊
-            const categorySection = document.createElement('div');
-            categorySection.className = 'category-section';
-            categorySection.innerHTML = `
-                <h3>${category.name}</h3>
-                <p class="category-description">${category.description}</p>
-                <div class="app-grid" id="appGrid-filtered"></div>
-            `;
-            
-            categorizedAppsContainer.appendChild(categorySection);
-            
-            // 在該分類下渲染應用
-            const categoryGrid = document.getElementById('appGrid-filtered');
-            renderAppsInGrid(categoryApps, categoryGrid);
         } else {
-            // 分類不存在，顯示錯誤信息
-            categorizedAppsContainer.innerHTML = `
-                <div class="error-message">
-                    <h3>找不到分類</h3>
-                    <p>指定的分類不存在。</p>
-                </div>
-            `;
+            // 獲取子分類
+            const childCategory = categoriesData.find(cat => cat.id === currentCategoryFilter);
+            
+            if (childCategory) {
+                // 獲取父分類
+                const parentCategory = categoriesData.find(cat => cat.id === childCategory.parentId);
+                
+                // 創建子分類區塊
+                const childSection = document.createElement('div');
+                childSection.className = 'category-section child-category-section';
+                childSection.innerHTML = `
+                    <h3>${childCategory.name}${parentCategory ? ` <span class="parent-category-link">(${parentCategory.name})</span>` : ''}</h3>
+                    <p class="category-description">${childCategory.description}</p>
+                    <div class="app-grid" id="appGrid-filtered"></div>
+                `;
+                
+                categorizedAppsContainer.appendChild(childSection);
+                
+                // 獲取該子分類下的應用
+                const childCategoryApps = appsData.filter(app => app.categoryId === childCategory.id);
+                
+                // 在該子分類下渲染應用
+                const childGrid = document.getElementById(`appGrid-filtered`);
+                renderAppsInGrid(childCategoryApps, childGrid);
+            } else {
+                // 分類不存在，顯示錯誤信息
+                categorizedAppsContainer.innerHTML = `
+                    <div class="error-message">
+                        <h3>找不到分類</h3>
+                        <p>指定的分類不存在。</p>
+                    </div>
+                `;
+            }
         }
     }
     
@@ -480,12 +625,27 @@ function populateCategoryDropdown(selectedCategoryId = '') {
     emptyOption.textContent = '-- 選擇分類 --';
     editAppCategorySelect.appendChild(emptyOption);
     
-    // 添加所有分類選項
-    categoriesData.forEach(category => {
-        const option = document.createElement('option');
-        option.value = category.id;
-        option.textContent = category.name;
-        editAppCategorySelect.appendChild(option);
+    // 添加父分類及其子分類
+    const parentCategories = categoriesData.filter(category => !category.parentId);
+    
+    parentCategories.forEach(parentCategory => {
+        // 添加父分類選項
+        const parentOption = document.createElement('option');
+        parentOption.value = parentCategory.id;
+        parentOption.textContent = parentCategory.name;
+        editAppCategorySelect.appendChild(parentOption);
+        
+        // 獲取該父分類下的所有子分類
+        const childCategories = categoriesData.filter(category => 
+            category.parentId === parentCategory.id);
+        
+        // 添加子分類選項（縮進顯示）
+        childCategories.forEach(childCategory => {
+            const childOption = document.createElement('option');
+            childOption.value = childCategory.id;
+            childOption.textContent = `-- ${childCategory.name}`;
+            editAppCategorySelect.appendChild(childOption);
+        });
     });
     
     // 設置選中的分類

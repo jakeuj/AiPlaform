@@ -1,24 +1,78 @@
 {
   "categories": [
     {
+      "id": "enterprise",
+      "name": "企業版",
+      "description": "專為企業用戶設計的應用程序"
+    },
+    {
       "id": "finance",
       "name": "財會",
-      "description": "財務報表、會計管理與稅務處理相關應用"
+      "description": "財務會計相關應用",
+      "parentId": "enterprise"
     },
     {
       "id": "hr",
-      "name": "人資",
-      "description": "人力資源管理、招聘、員工培訓與考勤追蹤工具"
-    },
-    {
-      "id": "sales",
-      "name": "業務",
-      "description": "銷售流程管理、客戶關係維護與業績分析系統"
+      "name": "HR",
+      "description": "人力資源管理應用",
+      "parentId": "enterprise"
     },
     {
       "id": "admin",
       "name": "行政",
-      "description": "行政流程、內部管理與日常營運支援系統"
+      "description": "行政管理相關應用",
+      "parentId": "enterprise"
+    },
+    {
+      "id": "sales",
+      "name": "業務",
+      "description": "銷售流程管理、客戶關係維護與業績分析系統",
+      "parentId": "enterprise"
+    },
+    {
+      "id": "aiaas",
+      "name": "AI服務",
+      "description": "人工智能應用即服務"
+    },
+    {
+      "id": "material",
+      "name": "Material",
+      "description": "材料相關AI應用",
+      "parentId": "aiaas"
+    },
+    {
+      "id": "esg",
+      "name": "ESG",
+      "description": "環境、社會和治理相關AI應用",
+      "parentId": "aiaas"
+    },
+    {
+      "id": "k12",
+      "name": "K12",
+      "description": "教育AI應用",
+      "parentId": "aiaas"
+    },
+    {
+      "id": "edge-ai",
+      "name": "Edge AI",
+      "description": "邊緣計算AI解決方案"
+    },
+    {
+      "id": "power",
+      "name": "Power",
+      "description": "電力與能源管理邊緣AI應用",
+      "parentId": "edge-ai"
+    },
+    {
+      "id": "ai-developer",
+      "name": "AI開發者",
+      "description": "為AI開發者設計的工具和平台"
+    },
+    {
+      "id": "tool",
+      "name": "工具",
+      "description": "AI開發工具和框架",
+      "parentId": "ai-developer"
     }
   ],
   "apps": [

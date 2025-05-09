@@ -151,6 +151,26 @@ nav {
     font-weight: bold;
 }
 
+/* 子分类过滤按钮 */
+.subcategory-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 0.5rem 3rem;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.subcategory-btn {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.8rem;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.parent-category.active {
+    background-color: var(--highlight-color);
+}
+
 /* 验证部分样式 */
 .verified-section {
     padding: 3rem;
@@ -189,6 +209,29 @@ nav {
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.parent-category-section {
+    margin-bottom: 4rem;
+}
+
+.child-category-section {
+    margin-left: 1.5rem;
+    margin-bottom: 2rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--highlight-color);
+}
+
+.child-category-section h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    color: #f0f0f0;
+}
+
+.parent-category-link {
+    font-size: 0.9rem;
+    color: var(--highlight-color);
+    font-weight: normal;
 }
 
 .category-description {

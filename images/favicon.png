@@ -1,0 +1,10 @@
+此文件需要是二進制PNG格式，無法直接在這裡創建。
+請使用以下方法創建favicon：
+
+1. 使用images/favicon.svg作為源文件
+2. 使用在線工具如https://realfavicongenerator.net/轉換SVG到PNG並生成不同尺寸的favicon
+3. 將生成的文件保存到images/favicons目錄
+
+或者，您可以使用以下命令行工具（如果已安裝）：
+- 使用ImageMagick: `convert images/favicon.svg images/favicons/favicon-32x32.png`
+- 使用Inkscape: `inkscape -w 32 -h 32 images/favicon.svg -o images/favicons/favicon-32x32.png` 

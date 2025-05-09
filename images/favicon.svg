@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>AI平台 Favicon</title>
+    <g id="favicon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="background" fill="#0F172A" x="0" y="0" width="32" height="32"></rect>
+        <text id="A" font-family="Arial-BoldMT, Arial" font-size="20" font-weight="bold" fill="#FFFFFF">
+            <tspan x="8" y="23">A</tspan>
+        </text>
+        <path d="M24,13 L20,13 L20,19 L24,19 L24,13 Z M24,13" id="i" fill="#EC4899"></path>
+    </g>
+</svg> 

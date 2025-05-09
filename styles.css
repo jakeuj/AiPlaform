@@ -255,6 +255,8 @@ nav {
     gap: 1rem;
     cursor: pointer;
     transition: transform 0.2s;
+    height: 175px;
+    overflow: hidden;
 }
 
 .app-card:hover {
@@ -265,20 +267,32 @@ nav {
     width: 80px;
     height: 80px;
     object-fit: contain;
+    flex-shrink: 0;
 }
 
 .app-info {
     flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .app-title {
     font-size: 1.2rem;
     margin-bottom: 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .app-description {
     font-size: 0.9rem;
     color: #9CA3AF;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    line-height: 1.4;
 }
 
 /* 模态框样式 */

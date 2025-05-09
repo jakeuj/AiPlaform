@@ -1,6 +1,20 @@
 {
   "apps": [
     {
+      "id": "Ead",
+      "name": "Expense Anomaly Detection",
+      "description": "Expense Anomaly Detection 是一套結合 AI 與數據視覺化的智慧財務異常偵測報告系統，專為中大型企業打造，協助快速識別並預警財務資料中的異常費用行為。無論是異常的大額支出、重複付款，或不尋常的交易模式，系統皆可自動分析並提出明確的異常事件與圖表說明，提升企業內控效率，降低營運風險。",
+      "icon": "https://www.gstatic.com/analytics-lego/svg/ic_looker_studio.svg", 
+      "launchUrl": "https://lookerstudio.google.com/u/0/reporting/93bc5364-af06-40a9-8412-5c8bb1b98a41/page/S7JnD"
+    },
+    {
+      "id": "Pead",
+      "name": "Power Ennowell Anomaly Detection",
+      "description": "Power Ennowell Anomaly Detection 是一套智慧化的異常行為偵測與視覺化報告工具，專為企業監控大量資料中潛藏的異常變化而設計。透過先進的機器學習演算法與直觀的使用者介面，本系統能夠即時從企業設備或財務數據中識別出異常模式，協助決策者快速掌握潛在問題，降低營運風險。",
+      "icon": "https://www.gstatic.com/analytics-lego/svg/ic_looker_studio.svg", 
+      "launchUrl": "https://lookerstudio.google.com/u/1/reporting/39bef502-7085-4a5c-bc45-4d3cf9a8ad32/page/S7JnD"
+    },
+    {
       "id": "dia",
       "name": "Dia",
       "description": "Dia是一個1.6B參數的文本轉語音模型，由Nari Labs創建。Dia直接從轉錄生成高度逼真的對話。您可以調節音頻輸出，啟用情感和語調控制。該模型還可以生成非語言交流，如笑聲、咳嗽、清嗓子等。",

@@ -1,8 +1,10 @@
 // 全局應用數據
 let appsData = [];
+let categoriesData = [];
 
 // DOM元素
-const appGrid = document.getElementById('appGrid');
+const categorizedAppsContainer = document.getElementById('categorizedApps');
+const categoryFiltersContainer = document.getElementById('categoryFilters');
 const installModal = document.getElementById('installModal');
 const launchModal = document.getElementById('launchModal');
 const adminModal = document.getElementById('adminModal');
@@ -17,10 +19,12 @@ const launchBtn = document.getElementById('launchBtn');
 const adminToggleBtn = document.getElementById('adminToggle');
 const saveAppBtn = document.getElementById('saveAppBtn');
 const cancelEditBtn = document.getElementById('cancelEditBtn');
+const editAppCategorySelect = document.getElementById('editAppCategory');
 
 // 當前選中的應用
 let selectedApp = null;
 let currentEditApp = null;
+let currentCategoryFilter = 'all';
 
 // 初始化
 document.addEventListener('DOMContentLoaded', async () => {
@@ -39,10 +43,13 @@ async function loadApps() {
             const response = await fetch('apps.json');
             const data = await response.json();
             appsData = data.apps;
+            categoriesData = data.categories || [];
         } catch (fetchError) {
             console.warn('無法通過fetch加載apps.json (可能是CORS限制)。使用內置備用數據。', fetchError);
             // 使用內置備用數據
-            appsData = getBackupAppsData();
+            const backupData = getBackupAppsData();
+            appsData = backupData.apps;
+            categoriesData = backupData.categories;
         }
         
         // 如果存在本地儲存數據，合併它
@@ -63,13 +70,34 @@ async function loadApps() {
             });
         }
         
+        // 載入本地儲存的分類數據
+        const localCategories = localStorage.getItem('categoriesData');
+        if (localCategories) {
+            const parsedLocalCategories = JSON.parse(localCategories);
+            
+            // 合併本地儲存的分類數據
+            parsedLocalCategories.forEach(localCategory => {
+                const existingIndex = categoriesData.findIndex(category => category.id === localCategory.id);
+                if (existingIndex !== -1) {
+                    // 更新已存在的分類
+                    categoriesData[existingIndex] = localCategory;
+                } else {
+                    // 添加新分類
+                    categoriesData.push(localCategory);
+                }
+            });
+        }
+        
+        // 渲染分類按鈕
+        renderCategoryFilters();
+        
         // 渲染應用網格
-        renderAppGrid();
+        renderCategorizedApps();
     } catch (error) {
         console.error('加載應用數據失敗:', error);
         
         // 顯示錯誤信息在頁面上
-        appGrid.innerHTML = `
+        categorizedAppsContainer.innerHTML = `
             <div class="error-message">
                 <h3>加載應用數據失敗</h3>
                 <p>錯誤信息: ${error.message}</p>
@@ -85,41 +113,116 @@ async function loadApps() {
 
 // 備用應用數據 (當無法加載JSON文件時使用)
 function getBackupAppsData() {
-    return [
-        {
-            "id": "dia",
-            "name": "Dia",
-            "description": "Dia是一個1.6B參數的文本轉語音模型，由Nari Labs創建。Dia直接從轉錄生成高度逼真的對話。您可以調節音頻輸出，啟用情感和語調控制。該模型還可以生成非語言交流，如笑聲、咳嗽、清嗓子等。",
-            "icon": "https://raw.githubusercontent.com/pinokiocomputer/assets/master/apps/dia.png",
-            "launchUrl": "https://github.com/nari-labs/dia"
-        },
-        {
-            "id": "framepack",
-            "name": "FramePack",
-            "description": "[僅限NVIDIA] 逐步生成視頻。FramePack是一個下一幀預測（next-frame-section）神經網絡結構，可逐步生成視頻。",
-            "icon": "https://raw.githubusercontent.com/pinokiocomputer/assets/master/apps/framepack.png",
-            "launchUrl": "https://github.com/lllyasviel/FramePack"
-        },
-        {
-            "id": "wan21",
-            "name": "Wan 2.1",
-            "description": "[僅限NVIDIA] 針對低配GPU機器的超級優化Gradio UI。為Wan2.1視頻生成器優化。生成高達12秒的視頻。",
-            "icon": "https://raw.githubusercontent.com/pinokiocomputer/assets/master/apps/wan2.1.png",
-            "launchUrl": "https://github.com/deepbeepmeeep/Wan2GP"
-        },
-        {
-            "id": "uno",
-            "name": "Uno",
-            "description": "[僅限NVIDIA] 從多個圖像生成圖像。https://github.com/bytedance/UNO",
-            "icon": "https://raw.githubusercontent.com/pinokiocomputer/assets/master/apps/uno.png", 
-            "launchUrl": "https://github.com/bytedance/UNO"
-        }
-    ];
+    return {
+        "categories": [
+            {
+                "id": "analytics",
+                "name": "數據分析",
+                "description": "資料視覺化與數據分析相關應用"
+            },
+            {
+                "id": "ai-tools",
+                "name": "AI 工具",
+                "description": "各類人工智慧輔助工具"
+            },
+            {
+                "id": "business",
+                "name": "企業管理",
+                "description": "企業管理與決策支援系統"
+            }
+        ],
+        "apps": [
+            {
+                "id": "Ead",
+                "name": "Expense Anomaly Detection",
+                "description": "Expense Anomaly Detection 是一套結合 AI 與數據視覺化的智慧財務異常偵測報告系統，專為中大型企業打造，協助快速識別並預警財務資料中的異常費用行為。無論是異常的大額支出、重複付款，或不尋常的交易模式，系統皆可自動分析並提出明確的異常事件與圖表說明，提升企業內控效率，降低營運風險。",
+                "icon": "https://www.gstatic.com/analytics-lego/svg/ic_looker_studio.svg", 
+                "launchUrl": "https://lookerstudio.google.com/u/0/reporting/93bc5364-af06-40a9-8412-5c8bb1b98a41/page/S7JnD",
+                "categoryId": "analytics"
+            },
+            {
+                "id": "Pead",
+                "name": "Power Ennowell Anomaly Detection",
+                "description": "Power Ennowell Anomaly Detection 是一套智慧化的異常行為偵測與視覺化報告工具，專為企業監控大量資料中潛藏的異常變化而設計。透過先進的機器學習演算法與直觀的使用者介面，本系統能夠即時從企業設備或財務數據中識別出異常模式，協助決策者快速掌握潛在問題，降低營運風險。",
+                "icon": "https://www.gstatic.com/analytics-lego/svg/ic_looker_studio.svg", 
+                "launchUrl": "https://lookerstudio.google.com/u/1/reporting/39bef502-7085-4a5c-bc45-4d3cf9a8ad32/page/S7JnD",
+                "categoryId": "analytics"
+            },
+            {
+                "id": "sf",
+                "name": "Sales Forecast",
+                "description": "Sales Forecast 是一套以人工智慧與歷史數據為核心的智慧化銷售預測平台，能協助企業精準掌握未來銷售走勢，優化庫存、提升營收、降低營運風險。這不僅是一個報表工具，而是企業決策的智慧副駕，讓每一個銷售策略都建立在可靠的數據基礎之上。",
+                "icon": "https://www.gstatic.com/analytics-lego/svg/ic_looker_studio.svg",
+                "launchUrl": "https://lookerstudio.google.com/u/0/reporting/93bc5364-af06-40a9-8412-5c8bb1b98a41/page/S7JnD",
+                "categoryId": "business"
+            },
+            {
+                "id": "Cc",
+                "name": "Career Consultation",
+                "description": "Career Consultation 是一套整合人工智慧與人類專業的職涯諮詢平台，針對個人職涯發展與企業人才培育提供精準建議與行動方案。無論是剛畢業的新鮮人、轉職中的職場人士，還是希望進行內部職涯規劃的企業人資部門，都能透過本平台獲得即時、量身打造的諮詢與工具。",
+                "icon": "https://www.gstatic.com/analytics-lego/svg/ic_looker_studio.svg",
+                "launchUrl": "https://lookerstudio.google.com/u/1/reporting/39bef502-7085-4a5c-bc45-4d3cf9a8ad32/page/S7JnD",
+                "categoryId": "ai-tools"
+            }
+        ]
+    };
 }
 
 // 保存應用數據到本地儲存
 function saveAppsToLocalStorage() {
     localStorage.setItem('appsData', JSON.stringify(appsData));
+}
+
+// 保存分類數據到本地儲存
+function saveCategoriesToLocalStorage() {
+    localStorage.setItem('categoriesData', JSON.stringify(categoriesData));
+}
+
+// 渲染分類過濾按鈕
+function renderCategoryFilters() {
+    // 保留「所有應用」按鈕
+    categoryFiltersContainer.innerHTML = `<button class="filter-btn active" data-category="all">所有應用</button>`;
+    
+    // 添加分類按鈕
+    categoriesData.forEach(category => {
+        const button = document.createElement('button');
+        button.className = 'filter-btn';
+        button.dataset.category = category.id;
+        button.textContent = category.name;
+        
+        button.addEventListener('click', () => {
+            // 設置當前過濾器
+            setCurrentCategoryFilter(category.id);
+        });
+        
+        categoryFiltersContainer.appendChild(button);
+    });
+    
+    // 為首個按鈕（所有應用）添加點擊事件
+    const allButton = categoryFiltersContainer.querySelector('[data-category="all"]');
+    if (allButton) {
+        allButton.addEventListener('click', () => {
+            setCurrentCategoryFilter('all');
+        });
+    }
+}
+
+// 設置當前分類過濾器
+function setCurrentCategoryFilter(categoryId) {
+    currentCategoryFilter = categoryId;
+    
+    // 更新按鈕狀態
+    const buttons = categoryFiltersContainer.querySelectorAll('.filter-btn');
+    buttons.forEach(button => {
+        if (button.dataset.category === categoryId) {
+            button.classList.add('active');
+        } else {
+            button.classList.remove('active');
+        }
+    });
+    
+    // 重新渲染應用程式
+    renderCategorizedApps();
 }
 
 // 創建默認圖標
@@ -163,11 +266,99 @@ function createDefaultIcon(appName) {
     return canvas.toDataURL('image/png');
 }
 
-// 渲染應用網格
-function renderAppGrid() {
-    appGrid.innerHTML = '';
+// 渲染分類應用列表
+function renderCategorizedApps() {
+    categorizedAppsContainer.innerHTML = '';
     
-    appsData.forEach(app => {
+    if (currentCategoryFilter === 'all') {
+        // 按分類顯示所有應用
+        categoriesData.forEach(category => {
+            // 過濾該分類下的應用
+            const categoryApps = appsData.filter(app => app.categoryId === category.id);
+            
+            // 如果此分類下有應用，則創建分類部分
+            if (categoryApps.length > 0) {
+                // 創建分類區塊
+                const categorySection = document.createElement('div');
+                categorySection.className = 'category-section';
+                categorySection.innerHTML = `
+                    <h3>${category.name}</h3>
+                    <p class="category-description">${category.description}</p>
+                    <div class="app-grid" id="appGrid-${category.id}"></div>
+                `;
+                
+                categorizedAppsContainer.appendChild(categorySection);
+                
+                // 在該分類下渲染應用
+                const categoryGrid = document.getElementById(`appGrid-${category.id}`);
+                renderAppsInGrid(categoryApps, categoryGrid);
+            }
+        });
+        
+        // 處理沒有分類的應用
+        const uncategorizedApps = appsData.filter(app => !app.categoryId || !categoriesData.some(cat => cat.id === app.categoryId));
+        if (uncategorizedApps.length > 0) {
+            // 創建未分類區塊
+            const uncategorizedSection = document.createElement('div');
+            uncategorizedSection.className = 'category-section';
+            uncategorizedSection.innerHTML = `
+                <h3>未分類應用</h3>
+                <p class="category-description">尚未分類的應用程式</p>
+                <div class="app-grid" id="appGrid-uncategorized"></div>
+            `;
+            
+            categorizedAppsContainer.appendChild(uncategorizedSection);
+            
+            // 在未分類區塊下渲染應用
+            const uncategorizedGrid = document.getElementById('appGrid-uncategorized');
+            renderAppsInGrid(uncategorizedApps, uncategorizedGrid);
+        }
+    } else {
+        // 只顯示特定分類的應用
+        const category = categoriesData.find(cat => cat.id === currentCategoryFilter);
+        if (category) {
+            // 過濾該分類下的應用
+            const categoryApps = appsData.filter(app => app.categoryId === category.id);
+            
+            // 創建分類區塊
+            const categorySection = document.createElement('div');
+            categorySection.className = 'category-section';
+            categorySection.innerHTML = `
+                <h3>${category.name}</h3>
+                <p class="category-description">${category.description}</p>
+                <div class="app-grid" id="appGrid-filtered"></div>
+            `;
+            
+            categorizedAppsContainer.appendChild(categorySection);
+            
+            // 在該分類下渲染應用
+            const categoryGrid = document.getElementById('appGrid-filtered');
+            renderAppsInGrid(categoryApps, categoryGrid);
+        } else {
+            // 分類不存在，顯示錯誤信息
+            categorizedAppsContainer.innerHTML = `
+                <div class="error-message">
+                    <h3>找不到分類</h3>
+                    <p>指定的分類不存在。</p>
+                </div>
+            `;
+        }
+    }
+    
+    // 如果沒有應用程序，顯示提示信息
+    if (appsData.length === 0) {
+        categorizedAppsContainer.innerHTML = `
+            <div class="info-message">
+                <h3>沒有應用程式</h3>
+                <p>目前沒有可用的應用程式。請使用右下角的「管理應用」按鈕添加新應用。</p>
+            </div>
+        `;
+    }
+}
+
+// 在網格中渲染應用
+function renderAppsInGrid(apps, gridElement) {
+    apps.forEach(app => {
         const appCard = document.createElement('div');
         appCard.className = 'app-card';
         appCard.dataset.appId = app.id;
@@ -188,35 +379,8 @@ function renderAppGrid() {
             startInstallation(app);
         });
         
-        appGrid.appendChild(appCard);
+        gridElement.appendChild(appCard);
     });
-    
-    // 添加錯誤處理CSS
-    if (!document.getElementById('errorStyles')) {
-        const style = document.createElement('style');
-        style.id = 'errorStyles';
-        style.textContent = `
-            .error-message {
-                background-color: rgba(255, 0, 0, 0.1);
-                border: 1px solid #ff5555;
-                border-radius: 5px;
-                padding: 20px;
-                color: #f8f8f2;
-            }
-            .error-message h3 {
-                color: #ff5555;
-                margin-bottom: 10px;
-            }
-            .error-message pre {
-                background-color: #282a36;
-                padding: 10px;
-                border-radius: 3px;
-                overflow-x: auto;
-                margin: 10px 0;
-            }
-        `;
-        document.head.appendChild(style);
-    }
 }
 
 // 開始安裝應用
@@ -287,7 +451,8 @@ function openAppEditor(app = null) {
         name: '',
         description: '',
         icon: '',
-        launchUrl: ''
+        launchUrl: '',
+        categoryId: ''
     };
     
     // 填充表單
@@ -297,8 +462,34 @@ function openAppEditor(app = null) {
     document.getElementById('editAppIcon').value = currentEditApp.icon;
     document.getElementById('editAppLaunchUrl').value = currentEditApp.launchUrl;
     
+    // 填充分類下拉選單
+    populateCategoryDropdown(currentEditApp.categoryId);
+    
     // 顯示模態框
     adminModal.style.display = 'flex';
+}
+
+// 填充分類下拉選單
+function populateCategoryDropdown(selectedCategoryId = '') {
+    // 清空現有選項
+    editAppCategorySelect.innerHTML = '';
+    
+    // 添加空選項
+    const emptyOption = document.createElement('option');
+    emptyOption.value = '';
+    emptyOption.textContent = '-- 選擇分類 --';
+    editAppCategorySelect.appendChild(emptyOption);
+    
+    // 添加所有分類選項
+    categoriesData.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category.id;
+        option.textContent = category.name;
+        editAppCategorySelect.appendChild(option);
+    });
+    
+    // 設置選中的分類
+    editAppCategorySelect.value = selectedCategoryId;
 }
 
 // 保存應用編輯
@@ -309,7 +500,8 @@ function saveAppEdit() {
         name: document.getElementById('editAppName').value,
         description: document.getElementById('editAppDescription').value,
         icon: document.getElementById('editAppIcon').value,
-        launchUrl: document.getElementById('editAppLaunchUrl').value
+        launchUrl: document.getElementById('editAppLaunchUrl').value,
+        categoryId: document.getElementById('editAppCategory').value
     };
     
     // 驗證必填字段
@@ -335,7 +527,7 @@ function saveAppEdit() {
     saveAppsToLocalStorage();
     
     // 重新渲染應用網格
-    renderAppGrid();
+    renderCategorizedApps();
     
     // 關閉模態框
     adminModal.style.display = 'none';
@@ -377,10 +569,12 @@ function setupEventListeners() {
                 ${appsData.map(app => `
                     <div class="app-list-item" data-app-id="${app.id}">
                         <span>${app.name}</span>
+                        <span class="app-list-category">${getCategoryNameById(app.categoryId) || '未分類'}</span>
                     </div>
                 `).join('')}
             </div>
             <button id="addNewAppBtn" class="btn primary">添加新應用</button>
+            <button id="manageCategoriesBtn" class="btn secondary">管理分類</button>
         `;
         
         // 替換當前的管理內容
@@ -412,6 +606,15 @@ function setupEventListeners() {
             openAppEditor();
         });
         
+        // 管理分類按鈕 (如果需要這個功能的話)
+        const manageCategoriesBtn = document.getElementById('manageCategoriesBtn');
+        if (manageCategoriesBtn) {
+            manageCategoriesBtn.addEventListener('click', () => {
+                // 這裡可以實現分類管理功能，暫時只顯示一個提示
+                alert('分類管理功能尚未實現。目前可通過JSON文件管理分類。');
+            });
+        }
+        
         // 顯示模態框
         adminModal.style.display = 'flex';
     });
@@ -436,4 +639,11 @@ function setupEventListeners() {
             adminModal.style.display = 'none';
         }
     });
+}
+
+// 根據分類ID獲取分類名稱
+function getCategoryNameById(categoryId) {
+    if (!categoryId) return null;
+    const category = categoriesData.find(cat => cat.id === categoryId);
+    return category ? category.name : null;
 } 

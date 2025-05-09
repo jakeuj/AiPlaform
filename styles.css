@@ -6,6 +6,7 @@
     --background-color: #0F172A;
     --card-bg-color: #1E293B;
     --success-color: #10B981;
+    --category-bg-color: #2D3748;
 }
 
 * {
@@ -114,6 +115,42 @@ nav {
     color: var(--text-color);
 }
 
+/* 分类过滤区域 */
+.category-filter {
+    padding: 2rem 3rem;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.category-filter h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.filter-btn {
+    padding: 0.5rem 1rem;
+    background-color: var(--category-bg-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.filter-btn.active {
+    background-color: var(--primary-color);
+    font-weight: bold;
+}
+
 /* 验证部分样式 */
 .verified-section {
     padding: 3rem;
@@ -138,12 +175,33 @@ nav {
     margin-right: 1rem;
 }
 
+/* 分类容器 */
+#categorizedApps {
+    margin-top: 2rem;
+}
+
+.category-section {
+    margin-bottom: 3rem;
+}
+
+.category-section h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.category-description {
+    color: #9CA3AF;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
 /* 应用网格 */
 .app-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
-    margin-top: 2rem;
 }
 
 .app-card {
@@ -240,7 +298,7 @@ label {
     margin-bottom: 0.5rem;
 }
 
-input, textarea {
+input, textarea, select {
     width: 100%;
     padding: 0.75rem;
     border: 1px solid #4B5563;
@@ -252,6 +310,10 @@ input, textarea {
 textarea {
     min-height: 100px;
     resize: vertical;
+}
+
+select {
+    cursor: pointer;
 }
 
 /* 管理切换按钮 */
@@ -266,6 +328,11 @@ textarea {
     border-radius: 5px;
     cursor: pointer;
     z-index: 100;
+}
+
+/* 隐藏的应用分类 */
+.hidden-category {
+    display: none;
 }
 
 /* 响应式调整 */
@@ -284,11 +351,74 @@ textarea {
         font-size: 2rem;
     }
     
-    .verified-section {
+    .verified-section, .category-filter {
         padding: 2rem 1rem;
     }
     
     .app-grid {
         grid-template-columns: 1fr;
     }
+    
+    .filter-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .filter-btn {
+        width: 100%;
+    }
+}
+
+/* 應用列表樣式 */
+.app-list {
+    margin: 1.5rem 0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.app-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    background-color: var(--card-bg-color);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.app-list-item:last-child {
+    border-bottom: none;
+}
+
+.app-list-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.app-list-category {
+    font-size: 0.8rem;
+    color: #9CA3AF;
+    padding: 0.2rem 0.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+/* 管理按鈕差距 */
+#manageCategoriesBtn {
+    margin-top: 0.5rem;
+}
+
+/* 資訊樣式 */
+.info-message {
+    background-color: rgba(59, 130, 246, 0.1);
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    padding: 20px;
+    color: #f8f8f2;
+    margin-top: 1rem;
+}
+
+.info-message h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
 } 

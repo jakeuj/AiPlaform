@@ -1,32 +1,53 @@
 {
+  "categories": [
+    {
+      "id": "analytics",
+      "name": "數據分析",
+      "description": "資料視覺化與數據分析相關應用"
+    },
+    {
+      "id": "ai-tools",
+      "name": "AI 工具",
+      "description": "各類人工智慧輔助工具"
+    },
+    {
+      "id": "business",
+      "name": "企業管理",
+      "description": "企業管理與決策支援系統"
+    }
+  ],
   "apps": [
     {
       "id": "Ead",
       "name": "Expense Anomaly Detection",
       "description": "Expense Anomaly Detection 是一套結合 AI 與數據視覺化的智慧財務異常偵測報告系統，專為中大型企業打造，協助快速識別並預警財務資料中的異常費用行為。無論是異常的大額支出、重複付款，或不尋常的交易模式，系統皆可自動分析並提出明確的異常事件與圖表說明，提升企業內控效率，降低營運風險。",
       "icon": "https://www.gstatic.com/analytics-lego/svg/ic_looker_studio.svg", 
-      "launchUrl": "https://lookerstudio.google.com/u/0/reporting/93bc5364-af06-40a9-8412-5c8bb1b98a41/page/S7JnD"
+      "launchUrl": "https://lookerstudio.google.com/u/0/reporting/93bc5364-af06-40a9-8412-5c8bb1b98a41/page/S7JnD",
+      "categoryId": "analytics"
     },
     {
       "id": "Pead",
       "name": "Power Ennowell Anomaly Detection",
       "description": "Power Ennowell Anomaly Detection 是一套智慧化的異常行為偵測與視覺化報告工具，專為企業監控大量資料中潛藏的異常變化而設計。透過先進的機器學習演算法與直觀的使用者介面，本系統能夠即時從企業設備或財務數據中識別出異常模式，協助決策者快速掌握潛在問題，降低營運風險。",
       "icon": "https://www.gstatic.com/analytics-lego/svg/ic_looker_studio.svg", 
-      "launchUrl": "https://lookerstudio.google.com/u/1/reporting/39bef502-7085-4a5c-bc45-4d3cf9a8ad32/page/S7JnD"
+      "launchUrl": "https://lookerstudio.google.com/u/1/reporting/39bef502-7085-4a5c-bc45-4d3cf9a8ad32/page/S7JnD",
+      "categoryId": "analytics"
     },
     {
       "id": "sf",
       "name": "Sales Forecast",
       "description": "Sales Forecast 是一套以人工智慧與歷史數據為核心的智慧化銷售預測平台，能協助企業精準掌握未來銷售走勢，優化庫存、提升營收、降低營運風險。這不僅是一個報表工具，而是企業決策的智慧副駕，讓每一個銷售策略都建立在可靠的數據基礎之上。",
-      "icon": "Https://www.gstatic.com/analytics-lego/svg/ic_looker_studio.svg",
-      "launchUrl": "https://lookerstudio.google.com/u/0/reporting/93bc5364-af06-40a9-8412-5c8bb1b98a41/page/S7JnD"
+      "icon": "https://www.gstatic.com/analytics-lego/svg/ic_looker_studio.svg",
+      "launchUrl": "https://lookerstudio.google.com/u/0/reporting/93bc5364-af06-40a9-8412-5c8bb1b98a41/page/S7JnD",
+      "categoryId": "business"
     },
     {
       "id": "Cc",
       "name": "Career Consultation",
-      "description": "areer Consultation 是一套整合人工智慧與人類專業的職涯諮詢平台，針對個人職涯發展與企業人才培育提供精準建議與行動方案。無論是剛畢業的新鮮人、轉職中的職場人士，還是希望進行內部職涯規劃的企業人資部門，都能透過本平台獲得即時、量身打造的諮詢與工具。",
+      "description": "Career Consultation 是一套整合人工智慧與人類專業的職涯諮詢平台，針對個人職涯發展與企業人才培育提供精準建議與行動方案。無論是剛畢業的新鮮人、轉職中的職場人士，還是希望進行內部職涯規劃的企業人資部門，都能透過本平台獲得即時、量身打造的諮詢與工具。",
       "icon": "https://www.gstatic.com/analytics-lego/svg/ic_looker_studio.svg",
-      "launchUrl": "https://lookerstudio.google.com/u/1/reporting/39bef502-7085-4a5c-bc45-4d3cf9a8ad32/page/S7JnD"
+      "launchUrl": "https://lookerstudio.google.com/u/1/reporting/39bef502-7085-4a5c-bc45-4d3cf9a8ad32/page/S7JnD",
+      "categoryId": "ai-tools"
     }
   ]
 } 

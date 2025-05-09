@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Max 平台</title>
+    <title>AI 平台</title>
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
 </head>
@@ -35,6 +35,14 @@
             </div>
         </section>
 
+        <section class="category-filter">
+            <h2>應用分類</h2>
+            <div class="filter-buttons" id="categoryFilters">
+                <button class="filter-btn active" data-category="all">所有應用</button>
+                <!-- 分類按鈕將由JavaScript動態生成 -->
+            </div>
+        </section>
+
         <section class="verified-section">
             <div class="section-header">
                 <div class="verified-badge">✓</div>
@@ -42,8 +50,8 @@
             </div>
             <p>經過認證發布商的腳本</p>
             
-            <div class="app-grid" id="appGrid">
-                <!-- 應用程式卡片將通過JavaScript動態生成 -->
+            <div id="categorizedApps">
+                <!-- 分類內容將由JavaScript動態生成 -->
             </div>
         </section>
     </main>
@@ -95,6 +103,12 @@
                 <div class="form-group">
                     <label for="editAppLaunchUrl">啟動URL</label>
                     <input type="text" id="editAppLaunchUrl">
+                </div>
+                <div class="form-group">
+                    <label for="editAppCategory">應用分類</label>
+                    <select id="editAppCategory">
+                        <!-- 分類選項將由JavaScript動態生成 -->
+                    </select>
                 </div>
                 <div class="form-group buttons">
                     <button class="btn primary" id="saveAppBtn">儲存</button>

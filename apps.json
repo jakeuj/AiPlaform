@@ -15,32 +15,18 @@
       "launchUrl": "https://lookerstudio.google.com/u/1/reporting/39bef502-7085-4a5c-bc45-4d3cf9a8ad32/page/S7JnD"
     },
     {
-      "id": "dia",
-      "name": "Dia",
-      "description": "Dia是一個1.6B參數的文本轉語音模型，由Nari Labs創建。Dia直接從轉錄生成高度逼真的對話。您可以調節音頻輸出，啟用情感和語調控制。該模型還可以生成非語言交流，如笑聲、咳嗽、清嗓子等。",
-      "icon": "https://raw.githubusercontent.com/pinokiocomputer/assets/master/apps/dia.png",
-      "launchUrl": "https://github.com/nari-labs/dia"
+      "id": "sf",
+      "name": "Sales Forecast",
+      "description": "Sales Forecast 是一套以人工智慧與歷史數據為核心的智慧化銷售預測平台，能協助企業精準掌握未來銷售走勢，優化庫存、提升營收、降低營運風險。這不僅是一個報表工具，而是企業決策的智慧副駕，讓每一個銷售策略都建立在可靠的數據基礎之上。",
+      "icon": "Https://www.gstatic.com/analytics-lego/svg/ic_looker_studio.svg",
+      "launchUrl": "https://lookerstudio.google.com/u/0/reporting/93bc5364-af06-40a9-8412-5c8bb1b98a41/page/S7JnD"
     },
     {
-      "id": "framepack",
-      "name": "FramePack",
-      "description": "[僅限NVIDIA] 逐步生成視頻。FramePack是一個下一幀預測（next-frame-section）神經網絡結構，可逐步生成視頻。",
-      "icon": "https://raw.githubusercontent.com/pinokiocomputer/assets/master/apps/framepack.png",
-      "launchUrl": "https://github.com/lllyasviel/FramePack"
-    },
-    {
-      "id": "wan21",
-      "name": "Wan 2.1",
-      "description": "[僅限NVIDIA] 針對低配GPU機器的超級優化Gradio UI。為Wan2.1視頻生成器優化。生成高達12秒的視頻。",
-      "icon": "https://raw.githubusercontent.com/pinokiocomputer/assets/master/apps/wan2.1.png",
-      "launchUrl": "https://github.com/deepbeepmeeep/Wan2GP"
-    },
-    {
-      "id": "uno",
-      "name": "Uno",
-      "description": "[僅限NVIDIA] 從多個圖像生成圖像。https://github.com/bytedance/UNO",
-      "icon": "https://raw.githubusercontent.com/pinokiocomputer/assets/master/apps/uno.png", 
-      "launchUrl": "https://github.com/bytedance/UNO"
+      "id": "Cc",
+      "name": "Career Consultation",
+      "description": "areer Consultation 是一套整合人工智慧與人類專業的職涯諮詢平台，針對個人職涯發展與企業人才培育提供精準建議與行動方案。無論是剛畢業的新鮮人、轉職中的職場人士，還是希望進行內部職涯規劃的企業人資部門，都能透過本平台獲得即時、量身打造的諮詢與工具。",
+      "icon": "https://www.gstatic.com/analytics-lego/svg/ic_looker_studio.svg",
+      "launchUrl": "https://lookerstudio.google.com/u/1/reporting/39bef502-7085-4a5c-bc45-4d3cf9a8ad32/page/S7JnD"
     }
   ]
 } 

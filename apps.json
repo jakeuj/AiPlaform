@@ -80,7 +80,7 @@
       "id": "Ead",
       "name": "Expense Anomaly Detection",
       "description": "Expense Anomaly Detection 是一套結合 AI 與數據視覺化的智慧財務異常偵測報告系統，專為中大型企業打造，協助快速識別並預警財務資料中的異常費用行為。無論是異常的大額支出、重複付款，或不尋常的交易模式，系統皆可自動分析並提出明確的異常事件與圖表說明，提升企業內控效率，降低營運風險。",
-      "icon": "images/looker_studio_icon.svg", 
+      "icon": "images/app-icons/expense-anomaly.svg", 
       "launchUrl": "https://lookerstudio.google.com/u/0/reporting/93bc5364-af06-40a9-8412-5c8bb1b98a41/page/S7JnD",
       "categoryId": "finance"
     },
@@ -88,7 +88,7 @@
       "id": "Pead",
       "name": "Power Ennowell Anomaly Detection",
       "description": "Power Ennowell Anomaly Detection 是一套智慧化的異常行為偵測與視覺化報告工具，專為企業監控大量資料中潛藏的異常變化而設計。透過先進的機器學習演算法與直觀的使用者介面，本系統能夠即時從企業設備或財務數據中識別出異常模式，協助決策者快速掌握潛在問題，降低營運風險。",
-      "icon": "images/looker_studio_icon.svg", 
+      "icon": "images/app-icons/power-anomaly.svg", 
       "launchUrl": "https://lookerstudio.google.com/u/1/reporting/39bef502-7085-4a5c-bc45-4d3cf9a8ad32/page/S7JnD",
       "categoryId": "admin"
     },
@@ -96,7 +96,7 @@
       "id": "sf",
       "name": "Sales Forecast",
       "description": "Sales Forecast 是一套以人工智慧與歷史數據為核心的智慧化銷售預測平台，能協助企業精準掌握未來銷售走勢，優化庫存、提升營收、降低營運風險。這不僅是一個報表工具，而是企業決策的智慧副駕，讓每一個銷售策略都建立在可靠的數據基礎之上。",
-      "icon": "images/looker_studio_icon.svg",
+      "icon": "images/app-icons/sales-forecast.svg",
       "launchUrl": "https://lookerstudio.google.com/u/0/reporting/93bc5364-af06-40a9-8412-5c8bb1b98a41/page/S7JnD",
       "categoryId": "sales"
     },
@@ -104,7 +104,7 @@
       "id": "Cc",
       "name": "Career Consultation",
       "description": "Career Consultation 是一套整合人工智慧與人類專業的職涯諮詢平台，針對個人職涯發展與企業人才培育提供精準建議與行動方案。無論是剛畢業的新鮮人、轉職中的職場人士，還是希望進行內部職涯規劃的企業人資部門，都能透過本平台獲得即時、量身打造的諮詢與工具。",
-      "icon": "images/looker_studio_icon.svg",
+      "icon": "images/app-icons/career-consultation.svg",
       "launchUrl": "https://lookerstudio.google.com/u/1/reporting/39bef502-7085-4a5c-bc45-4d3cf9a8ad32/page/S7JnD",
       "categoryId": "hr"
     },
@@ -112,7 +112,7 @@
       "id": "taxai",
       "name": "Tax AI Assistant",
       "description": "Tax AI Assistant 是一款專為企業財務部門打造的稅務人工智能助手，能夠自動解析財務數據、識別節稅機會，並提供符合最新稅法的合規建議。系統透過深度學習演算法分析上百萬筆稅務申報案例，能夠精準識別可節稅項目，同時大幅降低稅務風險，協助企業實現稅務最佳化。",
-      "icon": "images/looker_studio_icon.svg",
+      "icon": "images/app-icons/tax-ai.svg",
       "launchUrl": "https://demo-taxai.example.com",
       "categoryId": "finance"
     },
@@ -120,7 +120,7 @@
       "id": "talent-analytics",
       "name": "Talent Analytics Platform",
       "description": "Talent Analytics Platform 整合企業內部人才數據與外部市場資訊，提供全方位的人才分析與預測功能。透過先進的預測模型，系統能提前識別潛在離職風險、預測未來人才需求、優化招聘策略，並量化分析各項人資政策的投資回報率，協助企業建立數據導向的人才管理文化。",
-      "icon": "images/looker_studio_icon.svg",
+      "icon": "images/app-icons/talent-analytics.svg",
       "launchUrl": "https://demo-talentanalytics.example.com",
       "categoryId": "hr"
     },
@@ -128,7 +128,7 @@
       "id": "admin-ai",
       "name": "Admin AI Assistant",
       "description": "Admin AI Assistant 為企業行政部門提供全方位智能支援，從會議安排、文件管理到辦公用品採購，都能實現智能化自動處理。系統可整合企業郵件、日曆和ERP系統，主動預測行政需求並提出建議，大幅減少重複性工作，讓行政人員專注於更具價值的任務，提升整體行政效率。",
-      "icon": "images/looker_studio_icon.svg",
+      "icon": "images/app-icons/admin-ai.svg",
       "launchUrl": "https://demo-adminai.example.com",
       "categoryId": "admin"
     },
@@ -136,7 +136,7 @@
       "id": "crm-ai",
       "name": "CRM AI Enhancement",
       "description": "CRM AI Enhancement 為企業現有CRM系統注入人工智能，實現客戶關係的智能化管理。系統通過分析客戶互動歷史、購買行為和社交媒體數據，生成精準的客戶畫像與偏好分析，為銷售團隊提供個性化的接觸策略與最佳溝通時機建議，顯著提升客戶轉化率與滿意度。",
-      "icon": "images/looker_studio_icon.svg",
+      "icon": "images/app-icons/crm-ai.svg",
       "launchUrl": "https://demo-crmai.example.com",
       "categoryId": "sales"
     },
@@ -144,7 +144,7 @@
       "id": "material-analyzer",
       "name": "Material Analyzer Pro",
       "description": "Material Analyzer Pro 是一款革命性的材料分析平台，結合電腦視覺與深度學習技術，能夠從微觀結構圖像中自動識別材料特性與潛在缺陷。系統支持納米級材料結構分析，可預測材料性能並提供優化建議，廣泛應用於半導體、航空航天、生物材料等高科技領域，大幅縮短材料研發週期。",
-      "icon": "images/looker_studio_icon.svg",
+      "icon": "images/app-icons/material-analyzer.svg",
       "launchUrl": "https://demo-materialanalyzer.example.com",
       "categoryId": "material"
     },
@@ -152,7 +152,7 @@
       "id": "esg-tracker",
       "name": "ESG Performance Tracker",
       "description": "ESG Performance Tracker 是一套全面的企業永續績效管理平台，能自動整合企業內外部數據，生成符合國際標準的ESG報告。系統應用NLP技術分析全球ESG法規與趨勢變化，提供針對性的改進建議，並透過視覺化儀表板即時監控碳排放、能源使用、供應鏈合規等關鍵指標，協助企業實現永續發展目標。",
-      "icon": "images/looker_studio_icon.svg",
+      "icon": "images/app-icons/esg-tracker.svg",
       "launchUrl": "https://demo-esgtracker.example.com",
       "categoryId": "esg"
     },
@@ -160,7 +160,7 @@
       "id": "smart-tutor",
       "name": "Smart Tutor AI",
       "description": "Smart Tutor AI 是一款針對K12教育打造的智慧型個人化學習助手，能夠根據學生的學習風格、能力水平和進度自動調整課程內容。系統整合認知科學與人工智能技術，能識別學習盲點並提供針對性練習，同時生成詳細的學習分析報告，協助教師和家長了解學生的學習狀況，顯著提升學習效果。",
-      "icon": "images/looker_studio_icon.svg",
+      "icon": "images/app-icons/smart-tutor.svg",
       "launchUrl": "https://demo-smarttutor.example.com",
       "categoryId": "k12"
     },
@@ -168,7 +168,7 @@
       "id": "power-grid-ai",
       "name": "Power Ennowell Anomaly Detection",
       "description": "Power Ennowell Anomaly Detection 是一套智慧化的異常行為偵測與視覺化報告工具，專為企業監控大量資料中潛藏的異常變化而設計。透過先進的機器學習演算法與直觀的使用者介面，本系統能夠即時從企業設備或財務數據中識別出異常模式，協助決策者快速掌握潛在問題，降低營運風險。",
-      "icon": "images/looker_studio_icon.svg", 
+      "icon": "images/app-icons/power-grid-ai.svg", 
       "launchUrl": "https://lookerstudio.google.com/u/1/reporting/39bef502-7085-4a5c-bc45-4d3cf9a8ad32/page/S7JnD",
       "categoryId": "power"
     },
@@ -176,7 +176,7 @@
       "id": "ai-devkit",
       "name": "AI Developer Toolkit",
       "description": "AI Developer Toolkit 是一套全面的人工智能開發工具集，為AI開發者提供從模型訓練到部署的一站式解決方案。工具包含預訓練模型庫、自動化數據標註工具、模型優化器和跨平台部署框架，能夠顯著縮短AI應用的開發週期，同時提供詳細的性能分析與調優建議，適合各種規模的AI團隊使用。",
-      "icon": "images/looker_studio_icon.svg",
+      "icon": "images/app-icons/ai-devkit.svg",
       "launchUrl": "https://demo-aidevkit.example.com",
       "categoryId": "tool"
     },
@@ -184,7 +184,7 @@
       "id": "model-optimizer",
       "name": "AI Model Optimizer",
       "description": "AI Model Optimizer 是一款專為機器學習模型優化設計的自動化工具，能夠分析模型架構並提供精確的性能改進建議。系統支持自動超參數調優、模型剪枝和量化，能將模型大小減少高達80%並提升推理速度，同時保持模型精度。特別適合需要將AI模型部署到邊緣設備或移動端的開發團隊。",
-      "icon": "images/looker_studio_icon.svg",
+      "icon": "images/app-icons/model-optimizer.svg",
       "launchUrl": "https://demo-modeloptimizer.example.com",
       "categoryId": "tool"
     },
@@ -192,7 +192,7 @@
       "id": "enterprise-document-ai",
       "name": "Enterprise Document AI",
       "description": "Enterprise Document AI 是一套企業級文檔智能處理平台，能自動理解、分類和提取非結構化文檔中的關鍵信息。系統支持多語言OCR、自然語言理解和知識圖譜技術，可處理合同、報告、發票等各類企業文檔，顯著提升文檔處理效率，降低錯誤率，並支持合規性審核，適用於金融、法律和醫療等對文檔準確性要求高的行業。",
-      "icon": "images/looker_studio_icon.svg",
+      "icon": "images/app-icons/enterprise-document-ai.svg",
       "launchUrl": "https://demo-documentai.example.com",
       "categoryId": "admin"
     }

@@ -195,6 +195,14 @@
       "icon": "images/app-icons/enterprise-document-ai.svg",
       "launchUrl": "https://demo-documentai.example.com",
       "categoryId": "admin"
+    },
+    {
+      "id": "dify",
+      "name": "Dify",
+      "description": "Dify 是一個強大的LLM應用開發平台，讓開發者能夠快速構建、部署和監控AI驅動的應用程序。它提供了友好的可視化界面，支持提示詞工程、多模型整合與對話流程設計，同時具備完整的API管理、數據分析和持續優化功能，大幅降低了LLM應用開發的技術門檻與時間成本。",
+      "icon": "images/app-icons/dify.svg",
+      "launchUrl": "https://dify.ai/zh",
+      "categoryId": "tool"
     }
   ]
 } 

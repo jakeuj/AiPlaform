@@ -1,6 +1,8 @@
 // 全局應用數據
 let appsData = [];
 let categoriesData = [];
+// 追蹤已安裝的應用
+let installedApps = {};
 
 // DOM元素
 const categorizedAppsContainer = document.getElementById('categorizedApps');
@@ -29,12 +31,43 @@ let currentParentCategoryFilter = null; // 追蹤當前選擇的父分類
 
 // 初始化
 document.addEventListener('DOMContentLoaded', async () => {
+    console.log('初始化應用...');
+    
+    // 從localStorage加載已安裝的應用數據
+    loadInstalledApps();
+    
     // 從JSON文件和localStorage加載應用數據
     await loadApps();
     
     // 事件監聽器
     setupEventListeners();
+    
+    console.log('初始化完成');
 });
+
+// 從localStorage加載已安裝的應用數據
+function loadInstalledApps() {
+    const storedInstalledApps = localStorage.getItem('installedApps');
+    if (storedInstalledApps) {
+        try {
+            installedApps = JSON.parse(storedInstalledApps);
+            console.log('已加載安裝狀態:', installedApps);
+        } catch (e) {
+            console.error('解析已安裝應用數據失敗:', e);
+            installedApps = {};
+            localStorage.setItem('installedApps', JSON.stringify(installedApps));
+        }
+    } else {
+        installedApps = {};
+        localStorage.setItem('installedApps', JSON.stringify(installedApps));
+    }
+}
+
+// 保存已安裝的應用數據到localStorage
+function saveInstalledApps() {
+    localStorage.setItem('installedApps', JSON.stringify(installedApps));
+    console.log('已保存安裝狀態:', installedApps);
+}
 
 // 從JSON文件和localStorage加載應用數據
 async function loadApps() {
@@ -510,18 +543,29 @@ function renderAppsInGrid(apps, gridElement) {
         
         // 預先生成默認圖標數據URL
         const defaultIconUrl = createDefaultIcon(app.name);
+
+        // 檢查是否已安裝
+        const isInstalled = installedApps[app.id] === true;
         
         appCard.innerHTML = `
             <img src="${app.icon}" alt="${app.name}" class="app-icon" onerror="this.src='${defaultIconUrl}'">
             <div class="app-info">
                 <h3 class="app-title">${app.name}</h3>
                 <p class="app-description">${app.description}</p>
+                ${isInstalled ? '<span class="installed-badge">已安裝</span>' : ''}
             </div>
         `;
         
-        // 點擊卡片顯示安裝模態框
+        // 點擊卡片顯示安裝模態框或啟動應用
         appCard.addEventListener('click', () => {
-            startInstallation(app);
+            selectedApp = app;
+            if (installedApps[app.id] === true) {
+                // 如果已安裝，直接顯示啟動模態框
+                showLaunchModal();
+            } else {
+                // 否則顯示安裝模態框
+                startInstallation(app);
+            }
         });
         
         gridElement.appendChild(appCard);
@@ -530,6 +574,16 @@ function renderAppsInGrid(apps, gridElement) {
 
 // 開始安裝應用
 function startInstallation(app) {
+    console.log(`開始安裝應用: ${app.name} (${app.id})`);
+    
+    // 檢查應用是否已安裝
+    if (installedApps[app.id] === true) {
+        console.log(`應用 ${app.name} (${app.id}) 已安裝，直接顯示啟動模態框`);
+        selectedApp = app;
+        showLaunchModal();
+        return;
+    }
+    
     selectedApp = app;
     modalAppName.textContent = app.name;
     installProgress.style.width = '0%';
@@ -554,6 +608,11 @@ function simulateInstallation() {
             // 完成安裝
             installStatus.textContent = '安裝完成！';
             
+            // 將應用標記為已安裝
+            installedApps[selectedApp.id] = true;
+            saveInstalledApps();
+            console.log(`應用 ${selectedApp.name} (${selectedApp.id}) 已安裝`);
+            
             // 2秒後顯示啟動模態框
             setTimeout(() => {
                 installModal.style.display = 'none';
@@ -577,15 +636,46 @@ function simulateInstallation() {
 
 // 顯示啟動模態框
 function showLaunchModal() {
-    launchAppName.textContent = selectedApp.name;
+    console.log(`顯示啟動模態框: ${selectedApp.name} (${selectedApp.id})`);
+    
+    // 更新模態框內容
+    const modalContent = document.querySelector('#launchModal .modal-content');
+    modalContent.innerHTML = `
+        <span class="close-btn" id="closeLaunchModal">&times;</span>
+        <h2><span id="launchAppName">${selectedApp.name}</span> 已安裝</h2>
+        <p>應用程式已成功安裝到您的系統。</p>
+        <div class="modal-buttons">
+            <button class="btn primary" id="launchBtn">啟動應用</button>
+            <button class="btn secondary" id="uninstallBtn">卸載應用</button>
+        </div>
+    `;
+    
+    // 顯示模態框
     launchModal.style.display = 'flex';
     
+    // 重新綁定關閉按鈕事件
+    document.getElementById('closeLaunchModal').addEventListener('click', () => {
+        launchModal.style.display = 'none';
+    });
+    
     // 設置啟動按鈕點擊事件
-    launchBtn.onclick = function() {
+    document.getElementById('launchBtn').addEventListener('click', function() {
         // 在新窗口中打開應用程式的URL
         window.open(selectedApp.launchUrl, '_blank');
         launchModal.style.display = 'none';
-    };
+    });
+    
+    // 設置卸載按鈕點擊事件
+    document.getElementById('uninstallBtn').addEventListener('click', function() {
+        // 將應用標記為未安裝
+        delete installedApps[selectedApp.id];
+        saveInstalledApps();
+        console.log(`應用 ${selectedApp.name} (${selectedApp.id}) 已卸載`);
+        launchModal.style.display = 'none';
+        
+        // 重新渲染應用網格以更新UI
+        renderCategorizedApps();
+    });
 }
 
 // 打開應用編輯模態框

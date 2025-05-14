@@ -257,6 +257,7 @@ nav {
     transition: transform 0.2s;
     height: 175px;
     overflow: hidden;
+    position: relative;
 }
 
 .app-card:hover {
@@ -293,6 +294,19 @@ nav {
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     line-height: 1.4;
+}
+
+/* 已安装标记样式 */
+.installed-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background-color: var(--success-color);
+    color: white;
+    font-size: 0.8rem;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: 500;
 }
 
 /* 模态框样式 */
@@ -478,4 +492,21 @@ select {
 .info-message h3 {
     color: var(--primary-color);
     margin-bottom: 10px;
+}
+
+/* 模態框按鈕 */
+.modal-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+#uninstallBtn {
+    background-color: #EF4444;
+    border: none;
+    color: white;
+}
+
+#uninstallBtn:hover {
+    background-color: #DC2626;
 } 

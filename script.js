@@ -592,6 +592,9 @@ function startInstallation(app) {
     // 顯示安裝模態框
     installModal.style.display = 'flex';
     
+    // 記錄安裝開始時間
+    app.installStartTime = Date.now();
+    
     // 模擬安裝進度
     simulateInstallation();
 }
@@ -599,11 +602,14 @@ function startInstallation(app) {
 // 模擬安裝進度
 function simulateInstallation() {
     let progress = 0;
+    let installationComplete = false;
+    
     const interval = setInterval(() => {
         progress += Math.random() * 10;
         if (progress >= 100) {
             progress = 100;
             clearInterval(interval);
+            installationComplete = true;
             
             // 完成安裝
             installStatus.textContent = '安裝完成！';
@@ -617,6 +623,9 @@ function simulateInstallation() {
             setTimeout(() => {
                 installModal.style.display = 'none';
                 showLaunchModal();
+                
+                // 重新渲染應用網格以更新UI
+                renderCategorizedApps();
             }, 2000);
         }
         
@@ -631,7 +640,17 @@ function simulateInstallation() {
         } else {
             installStatus.textContent = '配置應用程式...';
         }
+        
+        // 如果進度超過50%，認為已部分安裝，標記為已安裝
+        if (progress >= 50 && !installationComplete && !installedApps[selectedApp.id]) {
+            installedApps[selectedApp.id] = true;
+            saveInstalledApps();
+            console.log(`應用 ${selectedApp.name} (${selectedApp.id}) 安裝進度超過50%，標記為已安裝`);
+        }
     }, 300);
+    
+    // 將interval存儲在全局變量中，以便在需要時清除
+    window.currentInstallInterval = interval;
 }
 
 // 顯示啟動模態框
@@ -656,6 +675,9 @@ function showLaunchModal() {
     // 重新綁定關閉按鈕事件
     document.getElementById('closeLaunchModal').addEventListener('click', () => {
         launchModal.style.display = 'none';
+        
+        // 重新渲染應用網格以更新UI
+        renderCategorizedApps();
     });
     
     // 設置啟動按鈕點擊事件
@@ -795,12 +817,33 @@ function generateId() {
 function setupEventListeners() {
     // 關閉安裝模態框
     closeModalBtn.addEventListener('click', () => {
+        // 清除當前安裝的interval
+        if (window.currentInstallInterval) {
+            clearInterval(window.currentInstallInterval);
+            window.currentInstallInterval = null;
+        }
+        
         installModal.style.display = 'none';
+        
+        // 檢查是否已部分安裝（進度條超過50%或已完成安裝）
+        const progressWidth = parseFloat(installProgress.style.width) || 0;
+        if (progressWidth >= 50 && selectedApp) {
+            // 標記為已安裝
+            installedApps[selectedApp.id] = true;
+            saveInstalledApps();
+            console.log(`應用 ${selectedApp.name} (${selectedApp.id}) 安裝中斷，但進度超過50%，標記為已安裝`);
+        }
+        
+        // 重新渲染應用網格
+        renderCategorizedApps();
     });
     
     // 關閉啟動模態框
     closeLaunchModalBtn.addEventListener('click', () => {
         launchModal.style.display = 'none';
+        
+        // 重新渲染應用網格以更新UI
+        renderCategorizedApps();
     });
     
     // 關閉管理模態框
@@ -880,10 +923,31 @@ function setupEventListeners() {
     // 點擊模態框背景關閉模態框
     window.addEventListener('click', (event) => {
         if (event.target === installModal) {
+            // 清除當前安裝的interval
+            if (window.currentInstallInterval) {
+                clearInterval(window.currentInstallInterval);
+                window.currentInstallInterval = null;
+            }
+            
             installModal.style.display = 'none';
+            
+            // 檢查是否已部分安裝（進度條超過50%或已完成安裝）
+            const progressWidth = parseFloat(installProgress.style.width) || 0;
+            if (progressWidth >= 50 && selectedApp) {
+                // 標記為已安裝
+                installedApps[selectedApp.id] = true;
+                saveInstalledApps();
+                console.log(`應用 ${selectedApp.name} (${selectedApp.id}) 安裝中斷，但進度超過50%，標記為已安裝`);
+            }
+            
+            // 重新渲染應用網格
+            renderCategorizedApps();
         }
         if (event.target === launchModal) {
             launchModal.style.display = 'none';
+            
+            // 重新渲染應用網格以更新UI
+            renderCategorizedApps();
         }
         if (event.target === adminModal) {
             adminModal.style.display = 'none';

@@ -145,7 +145,7 @@
       "name": "Material Analyzer Pro",
       "description": "Material Analyzer Pro 是一款革命性的材料分析平台，結合電腦視覺與深度學習技術，能夠從微觀結構圖像中自動識別材料特性與潛在缺陷。系統支持納米級材料結構分析，可預測材料性能並提供優化建議，廣泛應用於半導體、航空航天、生物材料等高科技領域，大幅縮短材料研發週期。",
       "icon": "images/app-icons/material-analyzer.svg",
-      "launchUrl": "https://demo-materialanalyzer.example.com",
+      "launchUrl": "https://materialai.crimsonaitech.com/#/materials_informatics",
       "categoryId": "material"
     },
     {

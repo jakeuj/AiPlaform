@@ -1,8 +1,23 @@
 :root {
+    /* Light theme (default) */
+    --primary-color: #3B82F6;
+    --secondary-color: #1F2937;
+    --highlight-color: #EC4899;
+    --text-color: #0F172A;
+    --text-muted-color: #4B5563;
+    --background-color: #FFFFFF;
+    --card-bg-color: #F1F5F9;
+    --success-color: #10B981;
+    --category-bg-color: #E2E8F0;
+}
+
+/* Dark theme */
+.dark-theme {
     --primary-color: #3B82F6;
     --secondary-color: #1F2937;
     --highlight-color: #EC4899;
     --text-color: #F9FAFB;
+    --text-muted-color: #D1D5DB;
     --background-color: #0F172A;
     --card-bg-color: #1E293B;
     --success-color: #10B981;
@@ -20,6 +35,32 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+    transform: translateY(-2px);
+}
+
+.theme-toggle i {
+    margin-right: 0.5rem;
+    color: var(--primary-color);
 }
 
 /* 头部样式 */
@@ -39,14 +80,16 @@ header {
 .logo {
     width: 40px;
     height: 40px;
-    background-color: var(--text-color);
-    color: var(--background-color);
+    background-color: transparent;
+    color: var(--primary-color);
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
     font-size: 20px;
     margin-right: 10px;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 nav {
@@ -58,10 +101,12 @@ nav {
     color: var(--text-color);
     text-decoration: none;
     font-weight: 500;
+    transition: color 0.3s ease;
 }
 
 .nav-link:hover {
-    text-decoration: underline;
+    color: var(--primary-color);
+    text-decoration: none;
 }
 
 /* 英雄区域样式 */
@@ -111,14 +156,14 @@ nav {
 
 .secondary {
     background-color: transparent;
-    border: 1px solid var(--text-color);
-    color: var(--text-color);
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
 }
 
 /* 分类过滤区域 */
 .category-filter {
     padding: 2rem 3rem;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .category-filter h2 {
@@ -225,17 +270,17 @@ nav {
 .child-category-section h4 {
     font-size: 1.1rem;
     margin-bottom: 0.8rem;
-    color: #f0f0f0;
+    color: var(--text-color);
 }
 
 .parent-category-link {
     font-size: 0.9rem;
-    color: var(--highlight-color);
+    color: var(--primary-color);
     font-weight: normal;
 }
 
 .category-description {
-    color: #9CA3AF;
+    color: var(--text-muted-color);
     margin-bottom: 1.5rem;
     font-size: 0.9rem;
 }
@@ -288,7 +333,7 @@ nav {
 
 .app-description {
     font-size: 0.9rem;
-    color: #9CA3AF;
+    color: var(--text-muted-color);
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 4;
@@ -319,17 +364,19 @@ nav {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
     z-index: 1000;
-    align-items: center;
-    justify-content: center;
+    overflow: auto;
 }
 
 .modal-content {
     background-color: var(--card-bg-color);
-    border-radius: 10px;
+    color: var(--text-color);
+    border-radius: 8px;
+    margin: 10% auto;
     padding: 2rem;
+    width: 90%;
     max-width: 500px;
-    width: 100%;
-    position: relative;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .admin-content {
@@ -372,7 +419,7 @@ label {
 input, textarea, select {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid #4B5563;
+    border: 1px solid var(--text-muted-color);
     background-color: var(--background-color);
     color: var(--text-color);
     border-radius: 5px;
@@ -392,13 +439,24 @@ select {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
-    background-color: var(--secondary-color);
-    color: var(--text-color);
-    padding: 0.75rem 1rem;
+    background-color: var(--primary-color);
+    color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 1.2rem;
     cursor: pointer;
-    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background-color 0.3s;
+    z-index: 900;
+}
+
+#adminToggle:hover {
+    transform: scale(1.1);
 }
 
 /* 隐藏的应用分类 */
@@ -453,7 +511,7 @@ select {
     align-items: center;
     padding: 0.8rem 1rem;
     background-color: var(--card-bg-color);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(127, 127, 127, 0.1);
     cursor: pointer;
     transition: background-color 0.2s;
 }
@@ -463,12 +521,12 @@ select {
 }
 
 .app-list-item:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--category-bg-color);
 }
 
 .app-list-category {
     font-size: 0.8rem;
-    color: #9CA3AF;
+    color: var(--text-muted-color);
     padding: 0.2rem 0.5rem;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 3px;
@@ -485,7 +543,7 @@ select {
     border: 1px solid var(--primary-color);
     border-radius: 5px;
     padding: 20px;
-    color: #f8f8f2;
+    color: var(--text-color);
     margin-top: 1rem;
 }
 

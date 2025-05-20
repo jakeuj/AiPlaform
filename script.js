@@ -22,6 +22,7 @@ const adminToggleBtn = document.getElementById('adminToggle');
 const saveAppBtn = document.getElementById('saveAppBtn');
 const cancelEditBtn = document.getElementById('cancelEditBtn');
 const editAppCategorySelect = document.getElementById('editAppCategory');
+const themeToggleBtn = document.getElementById('themeToggle');
 
 // 當前選中的應用
 let selectedApp = null;
@@ -36,6 +37,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 從localStorage加載已安裝的應用數據
     loadInstalledApps();
     
+    // 載入主題設定
+    loadThemePreference();
+    
     // 從JSON文件和localStorage加載應用數據
     await loadApps();
     
@@ -44,6 +48,47 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     console.log('初始化完成');
 });
+
+// 載入主題設定
+function loadThemePreference() {
+    const savedTheme = localStorage.getItem('themePreference');
+    
+    // 如果沒有保存的主題偏好，則使用系統偏好（如果支持）或默認亮色主題
+    if (!savedTheme) {
+        // 檢查系統偏好
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('dark-theme');
+            updateThemeIcon(true);
+        } else {
+            // 默認為亮色主題，不需要添加任何類
+            updateThemeIcon(false);
+        }
+    } else if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+        updateThemeIcon(true);
+    } else {
+        // 亮色主題
+        document.body.classList.remove('dark-theme');
+        updateThemeIcon(false);
+    }
+}
+
+// 切換主題
+function toggleTheme() {
+    const isDarkTheme = document.body.classList.toggle('dark-theme');
+    localStorage.setItem('themePreference', isDarkTheme ? 'dark' : 'light');
+    updateThemeIcon(isDarkTheme);
+}
+
+// 更新主題圖標
+function updateThemeIcon(isDarkTheme) {
+    const iconElement = themeToggleBtn.querySelector('i');
+    if (isDarkTheme) {
+        iconElement.className = 'fas fa-moon';
+    } else {
+        iconElement.className = 'fas fa-sun';
+    }
+}
 
 // 從localStorage加載已安裝的應用數據
 function loadInstalledApps() {
@@ -920,7 +965,10 @@ function setupEventListeners() {
         adminModal.style.display = 'none';
     });
     
-    // 點擊模態框背景關閉模態框
+    // 主題切換事件監聽器
+    themeToggleBtn.addEventListener('click', toggleTheme);
+    
+    // 窗口點擊事件（關閉模態框）
     window.addEventListener('click', (event) => {
         if (event.target === installModal) {
             // 清除當前安裝的interval

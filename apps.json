@@ -161,7 +161,7 @@
       "name": "Smart Tutor AI",
       "description": "Smart Tutor AI 是一款針對K12教育打造的智慧型個人化學習助手，能夠根據學生的學習風格、能力水平和進度自動調整課程內容。系統整合認知科學與人工智能技術，能識別學習盲點並提供針對性練習，同時生成詳細的學習分析報告，協助教師和家長了解學生的學習狀況，顯著提升學習效果。",
       "icon": "images/app-icons/smart-tutor.svg",
-      "launchUrl": "https://demo-smarttutor.example.com",
+      "launchUrl": "https://crk12.crimsonaitech.com/dashboard",
       "categoryId": "k12"
     },
     {
